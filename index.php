@@ -8,9 +8,9 @@
 <?php
 session_start(); // Start session
 
-$source = 'data/product.json';
+$source = 'data/modele.json';
 $content = file_get_contents($source);
-$products = json_decode($content, true);
+$questions_bis = json_decode($content, true);
 
 $questions = [
     array(
