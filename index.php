@@ -14,6 +14,9 @@ echo "<div class = 'titre'> <h1>". "Quizz" ."</h1></div>";
 require_once 'data/questions.php';
 session_start(); // Start session
 
+if (!isset($_SESSION['quiz'])) {
+    $_SESSION['quiz'] = [];
+}
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -42,11 +45,12 @@ use Classes\QuestionText;
 
 // Logic ------------------------------------------------------------
 $questions_bis = getQuestions();
-foreach (  $questions_bis as $key => $question) {
-    if ($question['type'] == 'radio'){
-        print_r('banane');
 
-        $questionRadio = new QuestionRadio("radio1", "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+echo "<form method='POST' action='templates/quiz.php'>";
+foreach ($questions_bis as $key => $question) {
+    if ($question['type'] == 'radio'){
+
+        $questionRadio = new QuestionRadio($key, "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
         $questionRadio->setChoices($question["choices"]);
         $questionRadio->questionRadio();
 
@@ -54,7 +58,7 @@ foreach (  $questions_bis as $key => $question) {
 
 }
 
-
+echo "<input type='submit' value='Envoyer'></form>";
 
 $questions = [
     array(
