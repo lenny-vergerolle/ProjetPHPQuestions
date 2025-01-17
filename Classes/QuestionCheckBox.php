@@ -4,7 +4,7 @@ class QuestionCheckBox extends Question{
 
     private $choices = [array()];
 
-    public function __construct(string $name, string $type, string $text, string $answer, int $score,$id,$value){
+    public function __construct(string $name, string $type, string $text, string $answer, int $score, String $id,$value){
         parent::__construct($name, $type, $text, $answer, $score, $id,$value);
         $this->choices = [array()];
     }

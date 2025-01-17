@@ -1,14 +1,14 @@
 <?php
 namespace Classes;
 abstract class Question{
-    private int $id;
+    private String $id;
     private string $value ;
     private string $name;
     private string $type;
     private string $text;
     private string $answer;
     private int $score;
-    public function __construct(string $name, string $type, string $text, string $answer, int $score,int $id,string $value){
+    public function __construct(string $name, string $type, string $text, string $answer, int $score, String $id,string $value){
         $this->name = $name;
         $this->type = $type;
         $this->text = $text;
@@ -18,11 +18,11 @@ abstract class Question{
         $this->value = $value;
         }
 
-    public function getId(): int
+    public function getId(): String
     {
         return $this->id;
     }
-    public function setId(int $id): void
+    public function setId(String $id): void
     {
         $this->id = $id;
     }

@@ -4,7 +4,7 @@ namespace Classes;
 class QuestionRadio extends Question {
     private array $choices;
 
-    public function __construct(string $name, string $type, string $text, string $answer, int $score, int $id, string $value) {
+    public function __construct(string $name, string $type, string $text, string $answer, int $score, String $id, string $value) {
         parent::__construct($name, $type, $text, $answer, $score,$id,$value );
         $this->choices = [];
     }
