@@ -15,6 +15,10 @@ require_once 'data/questions.php';
 require_once 'BD/majBD.php';
 session_start(); // Start session
 
+if (!isset($_SESSION['quiz'])) {
+    $_SESSION['quiz'] = [];
+}
+  
 function login($pdo): void{
     if (isset($_POST['nom_utilisateur'])){
         insertData($pdo,  1, $_POST['nom_utilisateur'], 0);
@@ -27,7 +31,6 @@ function logout(): void{
 
 affichageJoueur($pdo,id: 5);
 login($pdo);
-
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -42,23 +45,15 @@ use Classes\QuestionRadio;
 use Classes\QuestionCheckBox;
 use Classes\QuestionText;
 
-
-#$questionRadio = new QuestionRadio("Bouton", "Radio", "la question", "réponses", 1,1,"valeur");
-#$questionRadio->setChoices(['Option 1', 'Option 2', 'Option 3']);
-#$questionRadio->questionRadio();
-#
-#$questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", "Le checkBox", "bonne réponse", 2, 2,"valeur");
-#$questionCheckBox->setChoices(['Option 1', 'Option 2', 'Option 3']);
-#$questionCheckBox->questionCheckBox();
-#
-#$questionText =  new QuestionText("Text", "Text", "Quel est la bonne réponsej", "bonne réponse", 2, 2,3);
-
-
 // Logic ------------------------------------------------------------
 $questions_bis = getQuestions();
-foreach (  $questions_bis as $key => $question) {
+
+echo "<form method='POST' action='templates/quiz.php'>";
+foreach ($questions_bis as $key => $question) {
     if ($question['type'] == 'radio'){
-        $questionRadio = new QuestionRadio("radio1", "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+
+        $questionRadio = new QuestionRadio($key, "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+
         $questionRadio->setChoices($question["choices"]);
         $questionRadio->questionRadio();
 
@@ -74,6 +69,9 @@ foreach (  $questions_bis as $key => $question) {
     }
 
 }
+
+echo "<input type='submit' value='Envoyer'></form>";
+
 $question_total = 0;
 $question_correct = 0;
 $score_total = 0;
