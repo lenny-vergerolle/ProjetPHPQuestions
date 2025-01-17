@@ -12,7 +12,21 @@ echo "<div class = 'titre'> <h1>". "Quizz" ."</h1></div>";
 
 // Initialisation -----------------------------------------------------
 require_once 'data/questions.php';
+require_once 'BD/majBD.php';
 session_start(); // Start session
+
+function login($pdo): void{
+    if (isset($_POST['nom_utilisateur'])){
+        insertData($pdo,  1, $_POST['nom_utilisateur'], 0);
+        echo "Bienvenue " . $_POST['nom_utilisateur']."!!".PHP_EOL;
+    }
+}
+function logout(): void{
+    echo "Vous êtes déconnecté.";
+}
+
+affichageJoueur($pdo,id: 5);
+login($pdo);
 
 
 ini_set('display_errors', '1');
@@ -44,8 +58,6 @@ use Classes\QuestionText;
 $questions_bis = getQuestions();
 foreach (  $questions_bis as $key => $question) {
     if ($question['type'] == 'radio'){
-        print_r('banane');
-
         $questionRadio = new QuestionRadio("radio1", "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
         $questionRadio->setChoices($question["choices"]);
         $questionRadio->questionRadio();
@@ -189,6 +201,16 @@ $answer_handlers = array(
 );
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    echo "<form method='POST' action='templates/Deconnexion.php'><ol>";
+    echo "</ol><input type='submit' value='Se déconnecter'></form>";
+
+    echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
+    foreach ($questions as $q) {
+        echo "<li>";
+        $question_handlers[$q["type"]]($q);
+    }
+    echo "</ol><input type='submit' value='Se connecter'></form>";
+
     echo "<form method='POST' action='templates/quiz.php'><ol>";
     foreach ($questions as $q) {
         echo "<li>";
