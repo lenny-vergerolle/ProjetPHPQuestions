@@ -63,68 +63,17 @@ foreach (  $questions_bis as $key => $question) {
         $questionRadio->questionRadio();
 
     }
+    if ($question['type'] == 'checkbox'){
+        $questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", $question["label"], $question["correct"][0], 2, $question["uuid"],"checkBox");
+        $questionCheckBox->setChoices($question["choices"]);
+        $questionCheckBox->questionCheckBox();
+    }
+    if ($question['type'] == 'text'){
+        $questionText =  new QuestionText("Text", "Text", $question["label"], $question["correct"], 2, $question["uuid"],3);
+        $questionText->questionText();
+    }
 
 }
-
-
-
-$questions = [
-    array(
-        "name" => "ultime",
-        "type" => "text",
-        "text" => "Quelle est la réponse ultime?",
-        "answer" => "42",
-        "score" => 1
-    ),
-    array(
-        "name" => "cheval",
-        "type" => "radio",
-        "text" => "Quelle est la couleur du cheval blanc d'Henri IV?",
-        "choices" => [
-            array(
-                "text" => "Bleu",
-                "value" => "bleu"),
-            array(
-                "text" => "Blanc",
-                "value" => "blanc"),
-            array(
-                "text" => "Rouge",
-                "value" => "rouge"),
-        ],
-        "answer" => "blanc",
-        "score" => 2
-    ),
-    array(
-        "name" => "drapeau",
-        "type" => "checkbox",
-        "text" => "Quelles sont les couleurs du drapeau français?",
-        "choices" => [
-            array(
-                "text" => "Bleu",
-                "value" => "bleu"
-            ),
-            array(
-                "text" => "Blanc",
-                "value" => "blanc"
-            ),
-            array(
-                "text" => "Vert",
-                "value" => "vert"
-            ),
-            array(
-                "text" => "Jaune",
-                "value" => "jaune"
-            ),
-            array(
-                "text" => "Rouge",
-                "value" => "rouge"
-            )
-        ],
-        "answer" => ["bleu", "blanc", "rouge"],
-        "score" => 3
-    ),
-];
-
 $question_total = 0;
 $question_correct = 0;
 $score_total = 0;
@@ -207,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
     echo "</ol><input type='submit' value='Se connecter'></form>";
     echo "<form method='POST' action='templates/quiz.php'><ol>";
-    
+
     foreach ($questions as $q) {
         echo "<li>";
         $question_handlers[$q["type"]]($q);

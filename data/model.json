@@ -20,5 +20,38 @@
             "Answer 3"
         ],
         "correct": "Answer 3"
+    },
+    {
+        "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "type": "text",
+        "label": "Quelle est la réponse ultime?",
+        "correct": "42",
+        "score": 1
+    },
+    {
+        "uuid": "b2c3d4e5-f6a7-8901-bcde-f234567890ab",
+        "type": "radio",
+        "label": "Quelle est la couleur du cheval blanc d'Henri IV?",
+        "choices": [
+            "Bleu",
+            "Blanc",
+            "Rouge"
+        ],
+        "correct": "blanc",
+        "score": 2
+    },
+    {
+        "uuid": "c3d4e5f6-a7b8-9012-cdef-34567890abcd",
+        "type": "checkbox",
+        "label": "Quelles sont les couleurs du drapeau français?",
+        "choices": [
+            "Bleu",
+            "Blanc",
+            "Vert",
+            "Jaune",
+            "Rouge"
+        ],
+        "correct": ["bleu", "blanc", "rouge"],
+        "score": 3
     }
 ]

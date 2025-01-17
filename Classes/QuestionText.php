@@ -6,7 +6,7 @@ class QuestionText extends Question{
     public function __construct(string $name, string $type, string $text, string $answer, int $score,String $id, int $value){
         parent::__construct($name, $type, $text, $answer, $score, $id, $value);
     }
-    function question_text(): void {
+    function questionText(): void {
         echo "<br><input type='text' name='" . $this->getName() . "'><br>";
     }
 
