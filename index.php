@@ -205,13 +205,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "</ol><input type='submit' value='Se déconnecter'></form>";
 
     echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
-    foreach ($questions as $q) {
-        echo "<li>";
-        $question_handlers[$q["type"]]($q);
-    }
     echo "</ol><input type='submit' value='Se connecter'></form>";
-
     echo "<form method='POST' action='templates/quiz.php'><ol>";
+    
     foreach ($questions as $q) {
         echo "<li>";
         $question_handlers[$q["type"]]($q);
