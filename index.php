@@ -12,11 +12,25 @@ echo "<div class = 'titre'> <h1>". "Quizz" ."</h1></div>";
 
 // Initialisation -----------------------------------------------------
 require_once 'data/questions.php';
+require_once 'BD/majBD.php';
 session_start(); // Start session
 
 if (!isset($_SESSION['quiz'])) {
     $_SESSION['quiz'] = [];
 }
+  
+function login($pdo): void{
+    if (isset($_POST['nom_utilisateur'])){
+        insertData($pdo,  1, $_POST['nom_utilisateur'], 0);
+        echo "Bienvenue " . $_POST['nom_utilisateur']."!!".PHP_EOL;
+    }
+}
+function logout(): void{
+    echo "Vous êtes déconnecté.";
+}
+
+affichageJoueur($pdo,id: 5);
+login($pdo);
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
@@ -31,18 +45,6 @@ use Classes\QuestionRadio;
 use Classes\QuestionCheckBox;
 use Classes\QuestionText;
 
-
-#$questionRadio = new QuestionRadio("Bouton", "Radio", "la question", "réponses", 1,1,"valeur");
-#$questionRadio->setChoices(['Option 1', 'Option 2', 'Option 3']);
-#$questionRadio->questionRadio();
-#
-#$questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", "Le checkBox", "bonne réponse", 2, 2,"valeur");
-#$questionCheckBox->setChoices(['Option 1', 'Option 2', 'Option 3']);
-#$questionCheckBox->questionCheckBox();
-#
-#$questionText =  new QuestionText("Text", "Text", "Quel est la bonne réponsej", "bonne réponse", 2, 2,3);
-
-
 // Logic ------------------------------------------------------------
 $questions_bis = getQuestions();
 
@@ -51,71 +53,24 @@ foreach ($questions_bis as $key => $question) {
     if ($question['type'] == 'radio'){
 
         $questionRadio = new QuestionRadio($key, "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+
         $questionRadio->setChoices($question["choices"]);
         $questionRadio->questionRadio();
 
+    }
+    if ($question['type'] == 'checkbox'){
+        $questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", $question["label"], $question["correct"][0], 2, $question["uuid"],"checkBox");
+        $questionCheckBox->setChoices($question["choices"]);
+        $questionCheckBox->questionCheckBox();
+    }
+    if ($question['type'] == 'text'){
+        $questionText =  new QuestionText("Text", "Text", $question["label"], $question["correct"], 2, $question["uuid"],3);
+        $questionText->questionText();
     }
 
 }
 
 echo "<input type='submit' value='Envoyer'></form>";
-
-$questions = [
-    array(
-        "name" => "ultime",
-        "type" => "text",
-        "text" => "Quelle est la réponse ultime?",
-        "answer" => "42",
-        "score" => 1
-    ),
-    array(
-        "name" => "cheval",
-        "type" => "radio",
-        "text" => "Quelle est la couleur du cheval blanc d'Henri IV?",
-        "choices" => [
-            array(
-                "text" => "Bleu",
-                "value" => "bleu"),
-            array(
-                "text" => "Blanc",
-                "value" => "blanc"),
-            array(
-                "text" => "Rouge",
-                "value" => "rouge"),
-        ],
-        "answer" => "blanc",
-        "score" => 2
-    ),
-    array(
-        "name" => "drapeau",
-        "type" => "checkbox",
-        "text" => "Quelles sont les couleurs du drapeau français?",
-        "choices" => [
-            array(
-                "text" => "Bleu",
-                "value" => "bleu"
-            ),
-            array(
-                "text" => "Blanc",
-                "value" => "blanc"
-            ),
-            array(
-                "text" => "Vert",
-                "value" => "vert"
-            ),
-            array(
-                "text" => "Jaune",
-                "value" => "jaune"
-            ),
-            array(
-                "text" => "Rouge",
-                "value" => "rouge"
-            )
-        ],
-        "answer" => ["bleu", "blanc", "rouge"],
-        "score" => 3
-    ),
-];
 
 $question_total = 0;
 $question_correct = 0;
@@ -193,7 +148,13 @@ $answer_handlers = array(
 );
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    echo "<form method='POST' action='templates/Deconnexion.php'><ol>";
+    echo "</ol><input type='submit' value='Se déconnecter'></form>";
+
+    echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
+    echo "</ol><input type='submit' value='Se connecter'></form>";
     echo "<form method='POST' action='templates/quiz.php'><ol>";
+
     foreach ($questions as $q) {
         echo "<li>";
         $question_handlers[$q["type"]]($q);
