@@ -3,14 +3,58 @@
 <html>
 <head>
 <title>Quiz</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php
+echo "<div class = 'titre'> <h1>". "Quizz" ."</h1></div>";
+
+
+// Initialisation -----------------------------------------------------
+require_once 'data/questions.php';
 session_start(); // Start session
 
-$source = 'data/modele.json';
-$content = file_get_contents($source);
-$questions_bis = json_decode($content, true);
+
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+require_once 'autoload.php';
+
+// Register the autoloader
+spl_autoload_register(['Autoloader', 'loadClass']);
+
+use Classes\QuestionRadio;
+use Classes\QuestionCheckBox;
+use Classes\QuestionText;
+
+
+#$questionRadio = new QuestionRadio("Bouton", "Radio", "la question", "réponses", 1,1,"valeur");
+#$questionRadio->setChoices(['Option 1', 'Option 2', 'Option 3']);
+#$questionRadio->questionRadio();
+#
+#$questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", "Le checkBox", "bonne réponse", 2, 2,"valeur");
+#$questionCheckBox->setChoices(['Option 1', 'Option 2', 'Option 3']);
+#$questionCheckBox->questionCheckBox();
+#
+#$questionText =  new QuestionText("Text", "Text", "Quel est la bonne réponsej", "bonne réponse", 2, 2,3);
+
+
+// Logic ------------------------------------------------------------
+$questions_bis = getQuestions();
+foreach (  $questions_bis as $key => $question) {
+    if ($question['type'] == 'radio'){
+        print_r('banane');
+
+        $questionRadio = new QuestionRadio("radio1", "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+        $questionRadio->setChoices($question["choices"]);
+        $questionRadio->questionRadio();
+
+    }
+
+}
+
+
 
 $questions = [
     array(
@@ -163,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     echo "Réponses correctes: " . $question_correct . "/" . $question_total . "<br>";
     echo "Votre score: " . $score_correct . "/" . $score_total . "<br>";
 }
-phpinfo(INFO_VARIABLES);
+
 ?>
 </body>
 </html>
