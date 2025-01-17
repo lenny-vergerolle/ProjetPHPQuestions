@@ -6,11 +6,52 @@
 </head>
 <body>
 <?php
+
+// Initialisation -----------------------------------------------------
+require_once 'data/questions.php';
 session_start(); // Start session
 
-$source = 'data/modele.json';
-$content = file_get_contents($source);
-$questions_bis = json_decode($content, true);
+
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
+require_once 'autoload.php';
+
+// Register the autoloader
+spl_autoload_register(['Autoloader', 'loadClass']);
+
+use Classes\QuestionRadio;
+use Classes\QuestionCheckBox;
+use Classes\QuestionText;
+
+
+// Create and use a QuestionRadio object
+$questionRadio = new QuestionRadio("Bouton", "Radio", "la question", "réponses", 1,1,"valeur");
+$questionRadio->setChoices(['Option 1', 'Option 2', 'Option 3']);
+$questionRadio->questionRadio();
+
+$questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", "Le checkBox", "bonne réponse", 2, 2,"valeur");
+$questionCheckBox->setChoices(['Option 1', 'Option 2', 'Option 3']);
+$questionCheckBox->questionCheckBox();
+
+$questionText =  new QuestionText("Text", "Text", "Quel est la bonne réponse", "bonne réponse", 2, 2,"valeur");
+
+
+// Logic ------------------------------------------------------------
+$questions_bis = getQuestions();
+foreach (  $questions_bis as $key => $question) {
+    echo "<h3>".$question["label"]."</h3>";
+    foreach($question["choices"] as $choix){
+        echo "<p>".$choix."</p>"."<br>";
+    }
+    if ($question['type'] == 'radio'){
+        print_r('banane');
+    }
+
+}
+
+
 
 $questions = [
     array(

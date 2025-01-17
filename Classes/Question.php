@@ -1,5 +1,5 @@
 <?php
-
+namespace Classes;
 abstract class Question{
     private int $id;
     private string $value ;
