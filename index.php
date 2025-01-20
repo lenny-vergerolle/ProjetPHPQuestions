@@ -90,7 +90,7 @@ function answer_text($q, $v) {
 }
 
 function question_radio($q) {
-    $questionRadio = new QuestionRadio("name", "radio", $q["label"], $q["correct"], 1, $q["uuid"],"radio1");
+    $questionRadio = new QuestionRadio($q["uuid"], "radio", $q["label"], $q["correct"], 1, $q["uuid"],"radio1");
     $questionRadio->setChoices($q["choices"]);
     $questionRadio->questionRadio();
 

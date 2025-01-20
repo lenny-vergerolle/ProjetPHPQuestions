@@ -2,7 +2,7 @@
     {
         "uuid": "8030a37e-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 1.",
+        "label": "Lelabeldelaquestion1.",
         "choices": [
             "Answer 1",
             "Answer 2",
@@ -13,7 +13,7 @@
     {
         "uuid": "8d7f7078-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 2.",
+        "label": "Ledelaquestion2.",
         "choices": [
             "Answer 1",
             "Answer 2",
