@@ -3,8 +3,10 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Enregistrer les réponses de l'utilisateur dans la session
+        var_dump($_POST);
         if (!empty($_POST['quiz'])) {
             $_SESSION['quiz'] = $_POST; // Sauvegarde toutes les réponses dans la session
+
         }
     }
 

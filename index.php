@@ -46,31 +46,28 @@ use Classes\QuestionCheckBox;
 use Classes\QuestionText;
 
 // Logic ------------------------------------------------------------
-$questions_bis = getQuestions();
+$questions = getQuestions();
+$question_handlers = array(
+    "text" => "question_text",
+    "radio" => "question_radio",
+    "checkbox" => "question_checkbox"
+);
 
-echo "<form method='POST' action='templates/quiz.php'>";
-foreach ($questions_bis as $key => $question) {
-    if ($question['type'] == 'radio'){
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    echo "<form method='POST' action='templates/Deconnexion.php'><ol>";
+    echo "</ol><input type='submit' value='Se déconnecter'></form>";
 
-        $questionRadio = new QuestionRadio($key, "radio", $question["label"], $question["correct"], 1, $question["uuid"],"radio1");
+    echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
+    echo "</ol><input type='submit' value='Se connecter'></form>";
 
-        $questionRadio->setChoices($question["choices"]);
-        $questionRadio->questionRadio();
+    echo "<form method='POST' action='templates/quiz.php'><ol>";
 
+    foreach ($questions as $q) {
+        echo "<li>";
+        $question_handlers[$q["type"]]($q);
     }
-    if ($question['type'] == 'checkbox'){
-        $questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", $question["label"], $question["correct"][0], 2, $question["uuid"],"checkBox");
-        $questionCheckBox->setChoices($question["choices"]);
-        $questionCheckBox->questionCheckBox();
-    }
-    if ($question['type'] == 'text'){
-        $questionText =  new QuestionText("Text", "Text", $question["label"], $question["correct"], 2, $question["uuid"],3);
-        $questionText->questionText();
-    }
-
+    echo "<input type='submit' value='Envoyer'></form>";
 }
-
-echo "<input type='submit' value='Envoyer'></form>";
 
 $question_total = 0;
 $question_correct = 0;
@@ -78,7 +75,8 @@ $score_total = 0;
 $score_correct = 0;
 
 function question_text($q) {
-    echo ($q["text"] . "<br><input type='text' name='$q[name]'><br>");
+    $questionText =  new QuestionText("Text", "Text", $q["label"], $q["correct"], 2, $q["uuid"],3);
+    $questionText->questionText();
 }
 
 function answer_text($q, $v) {
@@ -92,14 +90,11 @@ function answer_text($q, $v) {
 }
 
 function question_radio($q) {
-    $html = $q["text"] . "<br>";
-    $i = 0;
-    foreach ($q["choices"] as $c) {
-        $i += 1;
-        $html .= "<input type='radio' name='$q[name]' value='$c[value]' id='$q[name]-$i'>";
-        $html .= "<label for='$q[name]-$i'>$c[text]</label>";
-    }
-    echo $html;
+    $questionRadio = new QuestionRadio("name", "radio", $q["label"], $q["correct"], 1, $q["uuid"],"radio1");
+    $questionRadio->setChoices($q["choices"]);
+    $questionRadio->questionRadio();
+
+
 }
 
 function answer_radio($q, $v) {
@@ -113,14 +108,10 @@ function answer_radio($q, $v) {
 }
 
 function question_checkbox($q) {
-    $html = $q["text"] . "<br>";
-    $i = 0;
-    foreach ($q["choices"] as $c) {
-        $i += 1;
-        $html .= "<input type='checkbox' name='$q[name][]' value='$c[value]' id='$q[name]-$i'>";
-        $html .= "<label for='$q[name]-$i'>$c[text]</label>";
-    }
-    echo $html;
+    $questionCheckBox  = new QuestionCheckBox("checkBox", "checkBox", $q["label"], $q["correct"][0], 2, $q["uuid"],"checkBox");
+    $questionCheckBox->setChoices($q["choices"]);
+    $questionCheckBox->questionCheckBox();
+
 }
 
 function answer_checkbox($q, $v) {
@@ -135,11 +126,6 @@ function answer_checkbox($q, $v) {
     }
 }
 
-$question_handlers = array(
-    "text" => "question_text",
-    "radio" => "question_radio",
-    "checkbox" => "question_checkbox"
-);
 
 $answer_handlers = array(
     "text" => "answer_text",
@@ -147,31 +133,31 @@ $answer_handlers = array(
     "checkbox" => "answer_checkbox"
 );
 
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    echo "<form method='POST' action='templates/Deconnexion.php'><ol>";
-    echo "</ol><input type='submit' value='Se déconnecter'></form>";
-
-    echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
-    echo "</ol><input type='submit' value='Se connecter'></form>";
-    echo "<form method='POST' action='templates/quiz.php'><ol>";
-
-    foreach ($questions as $q) {
-        echo "<li>";
-        $question_handlers[$q["type"]]($q);
-    }
-    echo "</ol><input type='submit' value='Envoyer'></form>";
-} else {
-    $question_total = 0;
-    $question_correct = 0;
-    $score_total = 0;
-    $score_correct = 0;
-    foreach ($questions as $q) {
-        $question_total += 1;
-        $answer_handlers[$q["type"]]($q, $_POST[$q["name"]] ?? NULL);
-    }
-    echo "Réponses correctes: " . $question_correct . "/" . $question_total . "<br>";
-    echo "Votre score: " . $score_correct . "/" . $score_total . "<br>";
-}
+#if ($_SERVER["REQUEST_METHOD"] == "GET") {
+#    echo "<form method='POST' action='templates/Deconnexion.php'><ol>";
+#    echo "</ol><input type='submit' value='Se déconnecter'></form>";
+#
+#    echo "<form method='POST' action='templates/FormConnexion.php'><ol>";
+#    echo "</ol><input type='submit' value='Se connecter'></form>";
+#    echo "<form method='POST' action='templates/quiz.php'><ol>";
+#
+#    foreach ($questions_bis as $q) {
+#        echo "<li>";
+#        $question_handlers[$q["type"]]($q);
+#    }
+#    echo "</ol><input type='submit' value='Envoyer'></form>";
+#} else {
+#    $question_total = 0;
+#    $question_correct = 0;
+#    $score_total = 0;
+#    $score_correct = 0;
+#    foreach ($questions as $q) {
+#        $question_total += 1;
+#        $answer_handlers[$q["type"]]($q, $_POST[$q["name"]] ?? NULL);
+#    }
+#    echo "Réponses correctes: " . $question_correct . "/" . $question_total . "<br>";
+#    echo "Votre score: " . $score_correct . "/" . $score_total . "<br>";
+#}
 
 ?>
 </body>
