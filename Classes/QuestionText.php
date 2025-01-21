@@ -1,24 +1,18 @@
 <?php
+namespace Classes;
 
-class QuestionText extends Question{
+class QuestionText extends Question {
 
-    public function __construct(string $name, string $type, string $text, string $answer, int $score){
-        parent::__construct($name, $type, $text, $answer, $score);
+    public function __construct(string $name, string $type, string $text, string $answer, int $score, string $id, int $value) {
+        parent::__construct($name, $type, $text, $answer, $score, $id, $value);
     }
-    function question_text(): void {
-        echo "<br><input type='text' name='" . $this->getName() . "'><br>";
-    }
-    
-    //function answer_text(): void {
-    //    //$score_total += $this->getScore();
-//
-    //    //if (is_null($v)) return;
-    //    //if ($this->getAnswer() == $v) {
-    //        //$question_correct += 1;
-    //        //$score_correct += $this->getScore();
-    //    }
-    //}
 
+    public function questionText(): void {
+        $html = "<label for='" . $this->getId() . "'>" . $this->getText() . "</label><br>";
+        $html .= "<input type='text' name='" . $this->getName() . "' id='" . $this->getId() . "' value='' required><br>";
+        echo $html;
+    }
 }
+
 
 ?>

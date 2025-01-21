@@ -2,23 +2,58 @@
     {
         "uuid": "8030a37e-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 1.",
+        "label": "Quel est le langage de programmation préféré des développeurs?",
         "choices": [
-            "Answer 1",
-            "Answer 2",
-            "Answer 3"
+            "JavaScript",
+            "Python",
+            "Java"
         ],
-        "correct": "Answer 2"
+        "answer": "Python",
+        "score": 1
     },
     {
         "uuid": "8d7f7078-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 2.",
+        "label": "Quelle est la capitale de la France?",
         "choices": [
-            "Answer 1",
-            "Answer 2",
-            "Answer 3"
+            "Paris",
+            "Lyon",
+            "Marseille"
         ],
-        "correct": "Answer 3"
+        "answer": "Paris",
+        "score": 1
+    },
+    {
+        "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        "type": "text",
+        "label": "Quelle est la réponse ultime?",
+        "answer": "42",
+        "score": 1
+    },
+    {
+        "uuid": "b2c3d4e5-f6a7-8901-bcde-f234567890ab",
+        "type": "radio",
+        "label": "Quelle est la couleur du cheval blanc d'Henri IV?",
+        "choices": [
+            "Bleu",
+            "Blanc",
+            "Rouge"
+        ],
+        "answer": "Blanc",
+        "score": 1
+    },
+    {
+        "uuid": "c3d4e5f6-a7b8-9012-cdef-34567890abcd",
+        "type": "checkbox",
+        "label": "Quelles sont les couleurs du drapeau français?",
+        "choices": [
+            "Bleu",
+            "Blanc",
+            "Vert",
+            "Jaune",
+            "Rouge"
+        ],
+        "answer": ["Bleu", "Blanc", "Rouge"],
+        "score": 1
     }
 ]
