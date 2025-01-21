@@ -1,5 +1,5 @@
 <?php
-
+// Récupère les questions depuis le fichier JSON
 function getQuestions(): array|Exception
 {
     $source = '../data/model.json';

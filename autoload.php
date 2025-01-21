@@ -1,21 +1,25 @@
 <?php
 declare(strict_types=1);
 
+// Déclaration de la classe Autoloader
 class Autoloader {
+    // Méthode statique pour charger une classe
     public static function loadClass($className) {
-        // Replace namespace separators with directory separators
+        // Remplacer les backslashes par des séparateurs de répertoires
         $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
 
-        // Define the base directory (one level above the autoloader file)
-        $baseDir = __DIR__ . '/';  // Adjust this path if needed
+        // Définir le répertoire de base
+        $baseDir = __DIR__ . '/'; 
 
-        // Build the full path to the class file
+        // Construire le chemin complet du fichier de la classe
         $filePath = $baseDir . $className . '.php';
 
-        // Check if the file exists, and if so, require it
+        // Vérifier si le fichier existe
         if (file_exists($filePath)) {
+            // Inclure le fichier de la classe
             require_once $filePath;
         } else {
+            // Lancer une exception si le fichier de la classe n'est pas trouvé
             throw new Exception("Class file not found: $filePath");
         }
     }

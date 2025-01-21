@@ -2,25 +2,25 @@
     {
         "uuid": "8030a37e-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 1.",
+        "label": "Quel est le langage de programmation préféré des développeurs?",
         "choices": [
-            "Answer 1",
-            "Answer 2",
-            "Answer 3"
+            "JavaScript",
+            "Python",
+            "Java"
         ],
-        "answer": "Answer 2",
+        "answer": "Python",
         "score": 1
     },
     {
         "uuid": "8d7f7078-947b-11ee-b9d1-0242ac120002",
         "type": "radio",
-        "label": "Le label de la question 2.",
+        "label": "Quelle est la capitale de la France?",
         "choices": [
-            "Answer 1",
-            "Answer 2",
-            "Answer 3"
+            "Paris",
+            "Lyon",
+            "Marseille"
         ],
-        "answer": "Answer 3",
+        "answer": "Paris",
         "score": 1
     },
     {

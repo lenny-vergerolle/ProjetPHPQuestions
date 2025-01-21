@@ -6,21 +6,23 @@ use PDO;
 use PDOException;
 
 class MajBD
+//Permet de créer et de mettre à jour la base de données
 {
     private PDO $pdo;
 
     public function __construct()
+    //Permet de se connecter à la base de données
     {
         try {
             $this->pdo = new PDO('sqlite:' . __DIR__ . '/db.sqlite');
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->deleteTable();
             $this->createTable();
         } catch (PDOException $e) {
             echo "Erreur de connexion à la base de données : " . $e->getMessage();
         }
     }
     private function deleteTable(): void
+    //Permet de supprimer la table
     {
         try {
             $deleteTable = "DROP TABLE IF EXISTS JOUEUR";
@@ -51,6 +53,7 @@ class MajBD
     
 
     public function insertData(string $name): int
+    //Permet d'insérer les données du joueur dans la base de données
 {
     try {
         $insertData = "INSERT INTO JOUEUR (NOM, NB_QUESTIONS, SCORE_TOTAL, SCORE_CORRECT, NB_REPONSES_CORRECTES) VALUES (:name, 0, 0, 0, 0)";
@@ -63,6 +66,7 @@ class MajBD
     }
 }
     public function afficheJoueur(int $id): void
+    //Permet d'afficher les données d'un joueur
     {
         try {
             $sql = "SELECT * FROM JOUEUR WHERE ID = :id";
@@ -82,26 +86,31 @@ class MajBD
         }
     }
 
-    public function incrementeQuestionsTotal(): void
+    public function incrementeQuestionsTotal($id): void
+    //Permet d'incrémenter le nombre de questions posées
     {
-        $this->updateField(1,'NB_QUESTIONS', value: 1);
+        $this->updateField($id, 'NB_QUESTIONS', 1);
     }
     public function incrementeQuestionCorrect(int $id): void
+    //Permet d'incrémenter le nombre de réponses correctes
     {
         $this->updateField($id, 'NB_REPONSES_CORRECTES', 1);
     }
 
     public function incrementeScoreCorrect(int $id, int $value): void
+    //  Permet d'incrémenter le score correct
     {
         $this->updateField($id, 'SCORE_CORRECT', $value);
     }
 
     public function incrementeScoreTotal(int $id, int $value): void
+    //Permet d'incrémenter le score total
     {
         $this->updateField($id, 'SCORE_TOTAL', $value);
     }
 
     private function updateField(int $id, string $field, int $value): void
+    //Permet de mettre à jour un champ de la base de données
 {
     try {
         
@@ -113,6 +122,7 @@ class MajBD
     }
 }
     public function afficheTousLesJoueurs(): void
+    //Permet d'afficher tous les joueurs
     {
         try {
             $sql = "SELECT * FROM JOUEUR";
