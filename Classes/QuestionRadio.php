@@ -22,8 +22,8 @@ class QuestionRadio extends Question {
         $i = 0;
         foreach ($this->getChoices() as $choice) {
             $i++;
-            $html .= "<input type='radio' name=quiz[name][".$this->getText()."] value='" . $choice . "' id=quiz['" . $this->getId() . "-$i']>";
-            $html .= "<label for='" . $this->getId() . "-$i'>" . $choice . "</label><br>";
+            $html .= "<input type='radio' name=quiz[name][Question". $i ."] value='" . $choice . "' id='quiz[name][" . $this->getId() . "-$i]'>";
+            $html .= "<label for='quiz[name][" . $this->getId() . "-$i]'>" . $choice . "</label><br>";
             // $html .= "<input type='hidden' name='quiz['".$this->getId(). "-$i" . "']' value='" . htmlspecialchars($choice) . "'> " . htmlspecialchars($choice) . "</label><br>";
         }
         echo $html;

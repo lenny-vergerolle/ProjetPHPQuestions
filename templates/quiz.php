@@ -7,14 +7,14 @@
         if (!empty($_POST['quiz'])) {
             $_SESSION['quiz'] = $_POST['quiz']; // Sauvegarde toutes les réponses dans la session
             var_dump($_SESSION);
-            echo "$_SESSION[quiz][name]";
         }
     }
 
     if (!empty($_SESSION['quiz'])) {
         echo "<h3>Réponses enregistrées :</h3>";
+        $i = 1;
         foreach ($_SESSION['quiz']['name'] as $questionName => $answer) {
-            echo "Question: " . $questionName . " - Réponse : $answer<br>";
+            echo $questionName . " - Réponse : $answer<br>";
         }
     }
 ?>
