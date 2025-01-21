@@ -20,8 +20,9 @@ class QuestionCheckBox extends Question{
         $i = 0;
         foreach ($this->getChoices() as $choice) {
             $i++;
-            $html .= "<input type='checkbox' name='" . $this->getName() . "' value='" . $choice . "' id='" . $this->getId() . "-$i'>";
+            $html .= "<input type='checkbox' name='" . $this->getName() . "[]' value='" . $choice . "' id='" . $this->getId() . "-$i'>";
             $html .= "<label for='" . $this->getId() . "-$i'>" . $choice . "</label><br>";
+
         }
         echo $html;
     }

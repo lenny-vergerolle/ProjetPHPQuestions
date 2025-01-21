@@ -14,9 +14,19 @@ class MajBD
         try {
             $this->pdo = new PDO('sqlite:' . __DIR__ . '/db.sqlite');
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->deleteTable();
             $this->createTable();
         } catch (PDOException $e) {
             echo "Erreur de connexion à la base de données : " . $e->getMessage();
+        }
+    }
+    private function deleteTable(): void
+    {
+        try {
+            $deleteTable = "DROP TABLE IF EXISTS JOUEUR";
+            $this->pdo->exec($deleteTable);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la suppression de la table : " . $e->getMessage();
         }
     }
 
@@ -38,23 +48,20 @@ class MajBD
             echo "Erreur lors de la création de la table : " . $e->getMessage();
         }
     }
+    
 
-    public function insertData(string $name): void
-    {
-        try {
-            $insertData = "INSERT INTO JOUEUR (NOM, NB_QUESTIONS, SCORE_TOTAL, SCORE_CORRECT, NB_REPONSES_CORRECTES)VALUES (:name, 0, 0, 0, 0)";
-            $stmt = $this->pdo->prepare($insertData);
-            $stmt->execute(['name' => $name]);
-        } catch (PDOException $e) {
-            echo "Erreur lors de l'insertion des données : " . $e->getMessage();
-        }
+    public function insertData(string $name): int
+{
+    try {
+        $insertData = "INSERT INTO JOUEUR (NOM, NB_QUESTIONS, SCORE_TOTAL, SCORE_CORRECT, NB_REPONSES_CORRECTES) VALUES (:name, 0, 0, 0, 0)";
+        $stmt = $this->pdo->prepare($insertData);
+        $stmt->execute(['name' => $name]);
+        return (int)$this->pdo->lastInsertId();
+    } catch (PDOException $e) {
+        echo "Erreur lors de l'insertion des données : " . $e->getMessage();
+        return 0;
     }
-    public function getLastId(): int{
-        return $this->pdo->lastInsertId();
-
-    }
-        
-
+}
     public function afficheJoueur(int $id): void
     {
         try {
@@ -79,7 +86,6 @@ class MajBD
     {
         $this->updateField(1,'NB_QUESTIONS', value: 1);
     }
-
     public function incrementeQuestionCorrect(int $id): void
     {
         $this->updateField($id, 'NB_REPONSES_CORRECTES', 1);
@@ -96,16 +102,16 @@ class MajBD
     }
 
     private function updateField(int $id, string $field, int $value): void
-    {
-        try {
-            $sql = "UPDATE JOUEUR SET $field = $field + :value WHERE ID = :id";
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->execute(['value' => $value, 'id' => $id]);
-        } catch (PDOException $e) {
-            echo "Erreur lors de la mise à jour de $field : " . $e->getMessage();
-        }
+{
+    try {
+        
+        $sql = "UPDATE JOUEUR SET $field = $field + :value WHERE ID = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['value' => $value, 'id' => $id]);
+    } catch (PDOException $e) {
+        echo "Erreur lors de la mise à jour de $field : " . $e->getMessage();
     }
-
+}
     public function afficheTousLesJoueurs(): void
     {
         try {

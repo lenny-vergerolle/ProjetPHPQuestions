@@ -2,14 +2,21 @@
 declare(strict_types=1);
 
 class Autoloader {
-    public static function loadClass(string $fqcn): void {
-        // Replace namespace backslashes with directory separators
-        $path = str_replace('\\', DIRECTORY_SEPARATOR, $fqcn) . '.php';
+    public static function loadClass($className) {
+        // Replace namespace separators with directory separators
+        $className = str_replace('\\', DIRECTORY_SEPARATOR, $className);
 
-        if (!file_exists($path)) {
-            throw new Exception("File not found: $path");
+        // Define the base directory (one level above the autoloader file)
+        $baseDir = __DIR__ . '/';  // Adjust this path if needed
+
+        // Build the full path to the class file
+        $filePath = $baseDir . $className . '.php';
+
+        // Check if the file exists, and if so, require it
+        if (file_exists($filePath)) {
+            require_once $filePath;
+        } else {
+            throw new Exception("Class file not found: $filePath");
         }
-
-        require_once $path;
     }
 }
