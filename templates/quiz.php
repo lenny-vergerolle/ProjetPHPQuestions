@@ -32,6 +32,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+// Initialisation de la classe MajBD
 $majBD = new MajBD();
 
 // Définition des handlers
